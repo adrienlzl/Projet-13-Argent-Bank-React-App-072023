@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
-import User from "../../Pages/User"
+import {setToken} from "../../Actions/token.action";
+import { useDispatch } from "react-redux";
 
 function Login() {
     const {
@@ -13,6 +14,12 @@ function Login() {
     } = useForm();
 
     const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const [tokenData, setTokenData] = useState()
+
+    useEffect(() => {
+
+    }, [tokenData]);
 
     const onSubmit = (data) => {
 
@@ -22,17 +29,26 @@ function Login() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
+
         })
             .then((response) => {
                 if (response.ok) {
-                    reset();
-                    navigate("/User");
-                    console.log("Connexion réussie !");
-                    console.log(data);
+                    console.log("data", data);
+                    return response.json()
                 } else {
                     console.log("Erreur lors de la connexion");
                     console.log(data);
                 }
+            })
+            .then((data) => {
+                const token = data.body.token;
+                dispatch(setToken(token));
+
+                reset();
+                navigate("/User");
+
+                console.log("Connexion réussie !");
+                console.log("data", data);
             })
             .catch((error) => {
                 console.log("Erreur lors de la connexion (catch)");
