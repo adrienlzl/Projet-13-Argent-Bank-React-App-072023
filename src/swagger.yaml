@@ -1,0 +1,241 @@
+openapi: 3.0.3
+info:
+  title: Banking API
+  version: 1.0.0
+  description: Argent Bank API phase II
+
+
+
+
+security:
+  - bearerAuth: []
+
+
+paths:
+  /transactions:
+    get:
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - Transactions
+      summary: Get transactions for the current month
+      description: Retourne la liste de toutes les transactions du mois
+      operationId: getTransactions
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionGroup'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Unauthorized - Required data missing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
+  /transactions/{transactionId}:
+    get:
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - Transactions
+      summary: Get details of a transaction
+      description: Retourne le detail de la transaction choisie
+      operationId: getTransactionDetails
+      parameters:
+        - name: transactionId
+          in: path
+          description: ID of the transaction to fetch
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Unauthorized - Required data missing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
+    put:
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - Transactions
+      summary: Update a transaction
+      description: Updates information about a specific transaction
+      operationId: updateTransaction
+      parameters:
+        - name: transactionId
+          in: path
+          description: ID of the transaction to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Updated transaction data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionInput'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Unauthorized - Required data missing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
+    delete:
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - Transactions
+      summary: Delete a transaction
+      description: Deletes a specific transaction
+      operationId: deleteTransaction
+      parameters:
+        - name: transactionId
+          in: path
+          description: ID of the transaction to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Unauthorized - Required data missing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 12345
+        account:
+          type: string
+          example: Savings Account
+        amount:
+          type: number
+          format: double
+          example: 100.00
+        description:
+          type: string
+          example: Grocery Shopping
+        date:
+          type: string
+          format: date-time
+          example: '2023-08-08T10:00:00Z'
+      required:
+        - account
+        - amount
+        - description
+        - date
+
+    TransactionInput:
+      type: object
+      properties:
+        account:
+          type: string
+          example: Savings Account
+        amount:
+          type: number
+          format: double
+          example: 120.50
+        description:
+          type: string
+          example: Restaurant Bill
+      required:
+        - account
+        - amount
+        - description
+
+    TransactionGroup:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/Transaction'
+
+    BadRequest:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: An error occurred in the request
+      required:
+        - error
+        - message
+
+    Unauthorized:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Unauthorized
+        message:
+          type: string
+          example: Required data is missing
+      required:
+        - error
+        - message

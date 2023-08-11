@@ -57,10 +57,10 @@ function Login() {
     };
 
     return (
-        <nav className=" bg-dark">
+        <div className=" bg-dark">
             <section className="sign-in-content">
                 <i className="fa fa-user-circle sign-in-icon"></i>
-                <h1>Sign In</h1>
+                <h1 className="sign-in-title">Sign In</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-wrapper">
                         <label htmlFor="username">Username</label>
@@ -93,7 +93,7 @@ function Login() {
                     </button>
                 </form>
             </section>
-        </nav>
+        </div>
     );
 }
 

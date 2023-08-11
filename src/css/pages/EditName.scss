@@ -1,0 +1,43 @@
+.edit-name-section {
+  height: 900px;
+  background-color: #12002b;
+  flex: 1;
+}
+.edit-name-contenaire {
+  box-sizing: border-box;
+  background-color: white;
+  width: 300px;
+  margin: 0 auto;
+  margin-top: 3rem;
+  padding: 2rem;
+}
+.edit-name-button {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
+}
+.edit-name-wrapper{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+.edit-name-wrapper label{
+  font-weight: bold;
+}
+.edit-name-input {
+  padding: 5px;
+  font-size: 1.2rem;
+}
+
+@media (min-width: 720px) {
+  .edit-name-section {
+    height: 800px;
+  }
+}

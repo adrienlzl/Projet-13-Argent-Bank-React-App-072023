@@ -9,6 +9,7 @@ import Sign from "./Pages/SIngIn";
 import "../src/css/normalizer.scss"
 import "../src/css/General.scss"
 import User from "./Pages/User";
+import EditName from "./Pages/EditName";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -16,6 +17,7 @@ const router = createBrowserRouter(
           <Route exact index  element={<Home />}/>
             <Route path="/Sign" element={<Sign/>}/>
             <Route path="/User" element={<User  />}/>
+            <Route path="/EditName" element={<EditName/>}/>
         </Route>
     ));
 

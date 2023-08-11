@@ -3,12 +3,17 @@ import "../css/pages/User.scss"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux";
 import {setUser} from "../Actions/user.action";
+import { useNavigate } from 'react-router-dom';
 
 function User() {
     const token = useSelector((state) => state.tokenReducer);
     const [userData, setUserData] = useState(null);
     const dispatch = useDispatch()
-    console.log(token)
+    const navigate = useNavigate();
+    const handleClick = () => {
+
+        navigate('/EditName');
+    };
 
     useEffect(() => {
         const fetchUserData = () => {
@@ -48,15 +53,14 @@ function User() {
             <div className="header-user">
                 {userData ? (
                     <>
-                        <h1>Welcome back<br />{userData.body.firstName} {userData.body.lastName}</h1>
+                        <h1 className="user-title">Welcome back<br />{userData.body.firstName} {userData.body.lastName}</h1>
                     </>
                 ) : (
                     <>
-                        <h1>Welcome back<br /></h1>
+                        <h1 className="user-title">Welcome back<br /></h1>
                     </>
                 )}
-
-                <button className="edit-button">Edit Name</button>
+                <button onClick={handleClick} className="edit-button">Edit name</button>
             </div>
             <h2 className="sr-only">Accounts</h2>
             <section className="account">
