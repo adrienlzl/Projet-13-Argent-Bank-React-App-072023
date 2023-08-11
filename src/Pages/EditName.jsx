@@ -37,7 +37,6 @@ function EditName() {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log("changement reussit")
                 navigate("/User");
             })
             .catch((error) => {

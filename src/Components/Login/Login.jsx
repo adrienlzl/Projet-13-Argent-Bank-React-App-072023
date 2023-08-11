@@ -33,11 +33,9 @@ function Login() {
         })
             .then((response) => {
                 if (response.ok) {
-                    console.log("data", data);
                     return response.json()
                 } else {
                     console.log("Erreur lors de la connexion");
-                    console.log(data);
                 }
             })
             .then((data) => {
@@ -46,13 +44,9 @@ function Login() {
 
                 reset();
                 navigate("/User");
-
-                console.log("Connexion réussie !");
-                console.log("data", data);
             })
             .catch((error) => {
                 console.log("Erreur lors de la connexion (catch)");
-                console.log(data);
             });
     };
 

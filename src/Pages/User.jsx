@@ -32,10 +32,8 @@ function User() {
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Réponse du serveur :', data);
                     const { email, firstName, lastName } = data.body
                     setUserData(data);
-                    console.log('userData après avoir été défini :', data);
                     dispatch(setUser({ email, firstName, lastName }));
                 })
                 .catch(error => {
