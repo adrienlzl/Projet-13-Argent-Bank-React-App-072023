@@ -4,33 +4,25 @@ import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux";
 import {setUser} from "../Actions/user.action";
 import { useNavigate } from 'react-router-dom';
+import {fetchUserProfile} from "../Api/api.call"
 
 function User() {
+
     const token = useSelector((state) => state.tokenReducer);
     const [userData, setUserData] = useState(null);
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const handleClick = () => {
-
         navigate('/EditName');
     };
 
     useEffect(() => {
+        if (!token) {
+            navigate('/Sign');
+            return;
+        }
         const fetchUserData = () => {
-            fetch('http://localhost:3001/api/v1/user/profile', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify({}),
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Erreur lors de la requête.');
-                    }
-                    return response.json();
-                })
+            fetchUserProfile(token)
                 .then(data => {
                     const { email, firstName, lastName } = data.body
                     setUserData(data);
@@ -40,11 +32,8 @@ function User() {
                     console.error('Erreur :', error.message);
                 });
         };
-
         fetchUserData();
     }, []);
-
-
 
     return (
         <section className="user-section">

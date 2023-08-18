@@ -4,6 +4,7 @@ import "./Login.scss";
 import { useNavigate } from "react-router-dom";
 import {setToken} from "../../Actions/token.action";
 import { useDispatch } from "react-redux";
+import {loginUser} from "../../Api/api.call";
 
 function Login() {
     const {
@@ -18,35 +19,18 @@ function Login() {
     const [tokenData, setTokenData] = useState()
 
     useEffect(() => {
-
     }, [tokenData]);
-
     const onSubmit = (data) => {
-
-        return fetch("http://localhost:3001/api/v1/user/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json()
-                } else {
-                    console.log("Erreur lors de la connexion");
-                }
-            })
-            .then((data) => {
-                const token = data.body.token;
+        loginUser(data)
+            .then((responseData) => {
+                const token = responseData.body.token;
                 dispatch(setToken(token));
 
                 reset();
                 navigate("/User");
             })
             .catch((error) => {
-                console.log("Erreur lors de la connexion (catch)");
+                console.log("Erreur lors de la connexion (catch)", error);
             });
     };
 
@@ -62,9 +46,8 @@ function Login() {
                             type="text"
                             id="username"
                             autoComplete="username"
-                            {...register("email", { required: true })} // Utilisez le champ "email" au lieu de "username"
+                            {...register("email", { required: true })}
                         />
-                        {/* Affichez les erreurs liées au champ "email" */}
                         {errors.email && <span>Ce champ est requis.</span>}
                     </div>
                     <div className="input-wrapper">
@@ -73,9 +56,8 @@ function Login() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            {...register("password", { required: true })} // Champ "password" requis
+                            {...register("password", { required: true })}
                         />
-                        {/* Affichez les erreurs liées au champ "password" */}
                         {errors.password && <span>Ce champ est requis.</span>}
                     </div>
                     <div className="input-remember">
@@ -90,5 +72,4 @@ function Login() {
         </div>
     );
 }
-
 export default Login;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from "react-redux"
 import "../css/pages/EditName.scss"
 import { useNavigate } from "react-router-dom";
+import {editNameCallApi} from "../Api/api.call";
 
 function EditName() {
     const [firstName, setFirstName] = useState('');
@@ -9,41 +10,28 @@ function EditName() {
     const token = useSelector((state) => state.tokenReducer);
     const navigate = useNavigate();
 
+    if (!token) {
+        navigate('/Sign');
+        return ;
+    }
     const handleChangeFirstName = (event) => {
         setFirstName(event.target.value);
     };
-
     const handleChangeLastName = (event) => {
         setLastName(event.target.value);
     };
-
     const handleSubmit = () => {
-
         if (firstName.trim() === '' || lastName.trim() === '') {
-
             return;
         }
-
-        fetch('http://localhost:3001/api/v1/user/profile', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-                firstName: firstName,
-                lastName: lastName,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
+        editNameCallApi(token, firstName, lastName)
+            .then(() => {
                 navigate("/User");
             })
             .catch((error) => {
                 console.error('Erreur lors de la requête :', error);
             });
-    };
-
+    }
     return (
         <section className="edit-name-section">
             <div className="edit-name-contenaire">
@@ -73,5 +61,4 @@ function EditName() {
         </section>
     )
 }
-
 export default EditName

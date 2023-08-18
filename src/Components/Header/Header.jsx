@@ -12,9 +12,7 @@ export const mapStateToProps = (state) => ({
 
 });
 function Header(props) {
-
     const userData = useSelector((state) => state.userReducer)
-
 
     return (
         <nav className="main-nav">
@@ -41,5 +39,4 @@ function Header(props) {
         </nav>
     );
 }
-
 export default connect(mapStateToProps)(Header)

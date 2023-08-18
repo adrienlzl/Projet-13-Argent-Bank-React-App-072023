@@ -4,16 +4,11 @@ import {NavLink} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {clearToken} from "../../Actions/token.action";
 
-
 function Logout() {
     const dispatch = useDispatch();
-
-
     const handleLogoutClick = () => {
         dispatch(clearToken());
     };
-
-
     return (
         <>
             <i className="fa fa-sign-out icone-logout"></i>
@@ -21,5 +16,4 @@ function Logout() {
         </>
     )
 }
-
 export default Logout

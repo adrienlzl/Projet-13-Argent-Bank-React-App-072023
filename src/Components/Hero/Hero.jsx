@@ -1,10 +1,8 @@
 import React from "react";
 import "./Hero.scss"
-// import BankTreeImg from "./Bank-Tree.png"
+
 
 function Hero() {
-
-
     return (
         <div className="hero">
             <section className="hero-content">
@@ -14,7 +12,6 @@ function Hero() {
                 <p className="subtitle">High interest rates.</p>
                 <p className="text">Open a savings account with Argent Bank today!</p>
             </section>
-
         </div>
     )
 }
